@@ -45,6 +45,30 @@ class RepositoryDb @Inject constructor(
         userDao.insertUsers(userEntity)
     }
 
+    override suspend fun insertUser(user: UserItem) {
+        val newId = userDao.getMaxId()?.plus(1)
+
+        userDao.insertUser(
+            UserEntity(
+                id = newId.toString(),
+                name = user.name,
+                address = user.address,
+                email = user.email,
+                phoneNumber = user.phoneNumber,
+                city = user.city,
+                gender = user.gender,
+            )
+        )
+    }
+
+    override suspend fun updateUser(user: UserItem) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteUser(user: UserItem) {
+        TODO("Not yet implemented")
+    }
+
     override fun getCity(): Flow<CityResponse> {
         return cityDao.getCity().map { cities ->
             cities.map { city ->

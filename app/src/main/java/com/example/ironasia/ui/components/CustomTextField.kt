@@ -38,7 +38,8 @@ fun CustomTextField(
     isSearch: Boolean = false,
     label: String = "",
     isEmail: Boolean = false,
-    isPassword: Boolean = false
+    isPassword: Boolean = false,
+    isNumber: Boolean = false
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
 
@@ -84,6 +85,7 @@ fun CustomTextField(
                     when {
                         isEmail -> KeyboardType.Email
                         isPassword -> KeyboardType.Password
+                        isNumber -> KeyboardType.Number
                         else -> KeyboardType.Text
                     },
                 capitalization = when {

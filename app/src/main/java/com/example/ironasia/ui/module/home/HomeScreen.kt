@@ -51,7 +51,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModelType
+    viewModel: HomeViewModelType,
+    navigateForm: () -> Unit
 ) {
     val userData by viewModel.userData.collectAsStateWithLifecycle()
     val cityData by viewModel.cityData.collectAsStateWithLifecycle()
@@ -245,7 +246,7 @@ fun HomeScreen(
                     .padding(20.dp)
                     .size(60.dp)
                     .align(Alignment.BottomEnd),
-                onClick = {},
+                onClick = navigateForm,
                 containerColor = PrimaryColor,
                 contentColor = White
             ) {
@@ -319,6 +320,7 @@ fun HomeScreenPreview() {
     }
 
     HomeScreen(
-        viewModel = viewModel
+        viewModel = viewModel,
+        navigateForm = {}
     )
 }

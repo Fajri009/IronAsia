@@ -6,6 +6,8 @@ sealed class IronAsiaRoutes(val route: String) {
     object Login : IronAsiaRoutes("login")
 
     object Home : IronAsiaRoutes("home")
+
+    object Form : IronAsiaRoutes("form")
 }
 
 class IronAsiaNavigationActions(private val navController: NavHostController) {
