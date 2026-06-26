@@ -17,7 +17,9 @@ class IronAsiaAppTheme {
     class Color {
         companion object {
             val PrimaryColor = Color(0xFF1450F9)
+            val LightPrimaryColor = Color(0xFF14E6F9)
             val White = Color(0xFFFFFFFF)
+            val Gray = Color(0xFF9BA3AF)
         }
     }
 
