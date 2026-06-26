@@ -8,6 +8,10 @@ sealed class IronAsiaRoutes(val route: String) {
     object Home : IronAsiaRoutes("home")
 
     object Form : IronAsiaRoutes("form")
+
+    object Detail : IronAsiaRoutes("detail/{userId}") {
+        fun createRoute(userId: String) = "detail/$userId"
+    }
 }
 
 class IronAsiaNavigationActions(private val navController: NavHostController) {

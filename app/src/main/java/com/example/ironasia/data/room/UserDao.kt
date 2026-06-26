@@ -1,7 +1,6 @@
 package com.example.ironasia.data.room
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -17,6 +16,9 @@ interface UserDao {
     @Query("SELECT * FROM user")
     fun getUsers(): Flow<UserResponse>
 
+    @Query("SELECT * FROM user WHERE id = :id")
+    fun getUserById(id: String): Flow<UserEntity?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUsers(users: List<UserEntity>)
 
@@ -26,6 +28,6 @@ interface UserDao {
     @Update
     suspend fun updateUser(user: UserEntity)
 
-    @Delete
-    suspend fun deleteUser(user: UserEntity)
+    @Query("DELETE FROM user WHERE id = :id")
+    suspend fun deleteUser(id: String)
 }

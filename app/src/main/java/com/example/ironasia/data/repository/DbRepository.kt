@@ -7,10 +7,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface DbRepository {
     fun getUsers(): Flow<UserResponse>
+    fun getUserById(id: String): Flow<UserItem?>
     suspend fun insertUsers(users: UserResponse)
     suspend fun insertUser(user: UserItem)
     suspend fun updateUser(user: UserItem)
-    suspend fun deleteUser(user: UserItem)
+    suspend fun deleteUser(id: String)
 
     fun getCity(): Flow<CityResponse>
     suspend fun insertCity(city: CityResponse)

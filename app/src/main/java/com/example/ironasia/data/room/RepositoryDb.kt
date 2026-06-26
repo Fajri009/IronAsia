@@ -29,6 +29,22 @@ class RepositoryDb @Inject constructor(
         }
     }
 
+    override fun getUserById(id: String): Flow<UserItem?> {
+        return userDao.getUserById(id).map { user ->
+            user?.let {
+                UserItem(
+                    id = it.id,
+                    name = it.name,
+                    address = it.address,
+                    email = it.email,
+                    phoneNumber = it.phoneNumber,
+                    city = it.city,
+                    gender = it.gender
+                )
+            }
+        }
+    }
+
     override suspend fun insertUsers(users: UserResponse) {
         val userEntity = users.map { user ->
             UserEntity(
@@ -65,8 +81,8 @@ class RepositoryDb @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteUser(user: UserItem) {
-        TODO("Not yet implemented")
+    override suspend fun deleteUser(id: String) {
+        userDao.deleteUser(id)
     }
 
     override fun getCity(): Flow<CityResponse> {

@@ -52,7 +52,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModelType,
-    navigateForm: () -> Unit
+    navigateForm: () -> Unit,
+    navigateDetail: (String) -> Unit
 ) {
     val userData by viewModel.userData.collectAsStateWithLifecycle()
     val cityData by viewModel.cityData.collectAsStateWithLifecycle()
@@ -223,12 +224,14 @@ fun HomeScreen(
                                     val user = filteredList[index]
 
                                     UserCard(
+                                        id = user.id,
                                         name = user.name,
                                         address = user.address,
                                         city = user.city,
                                         email = user.email,
                                         phoneNumber = user.phoneNumber,
-                                        gender = user.gender
+                                        gender = user.gender,
+                                        onClick = navigateDetail
                                     )
                                 }
 
@@ -321,6 +324,7 @@ fun HomeScreenPreview() {
 
     HomeScreen(
         viewModel = viewModel,
-        navigateForm = {}
+        navigateForm = {},
+        navigateDetail = {}
     )
 }

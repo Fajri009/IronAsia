@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,12 +34,14 @@ import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.paragraph2
 
 @Composable
 fun UserCard(
+    id: String,
     name: String,
     address: String,
     city: String,
     email: String,
     phoneNumber: String,
-    gender: Int
+    gender: Int,
+    onClick: (String) -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -86,27 +89,39 @@ fun UserCard(
                     data = phoneNumber
                 )
             }
-            Box(
-                modifier = Modifier
-                    .size(30.dp)
-                    .clip(CircleShape)
-                    .background(
-                        color =
-                            if (gender == 1) Pink
-                            else DodgerBlue
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Box(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clip(CircleShape)
+                        .background(
+                            color =
+                                if (gender == 1) Pink
+                                else DodgerBlue
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        modifier = Modifier.size(20.dp),
+                        painter = painterResource(
+                            id =
+                                if (gender == 1) R.drawable.ic_female
+                                else R.drawable.ic_male
+                        ),
+                        contentDescription = "Icon Gender",
+                        tint = White
+                    )
+                }
+                Spacer(modifier = Modifier.size(10.dp))
+                IconButton(
                     modifier = Modifier.size(20.dp),
-                    painter = painterResource(
-                        id =
-                            if (gender == 1) R.drawable.ic_female
-                            else R.drawable.ic_male
-                    ),
-                    contentDescription = "Icon Gender",
-                    tint = White
-                )
+                    onClick = { onClick(id) }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_option),
+                        contentDescription = "Icon Option"
+                    )
+                }
             }
         }
     }
@@ -135,11 +150,13 @@ fun UserData(
 @Composable
 fun UserCardPreview() {
     UserCard(
+        id = "0",
         name = "Fajri Harlan",
         address = "Ciledug",
         city = "Tangerang",
         email = "fajri@gmail.com",
         phoneNumber = "08123456789",
-        gender = 0
+        gender = 0,
+        onClick = {}
     )
 }

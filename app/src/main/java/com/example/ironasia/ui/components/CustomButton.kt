@@ -8,6 +8,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.PrimaryColor
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.White
@@ -15,16 +16,20 @@ import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.heading6Bol
 
 @Composable
 fun CustomButton(
+    modifier: Modifier = Modifier.fillMaxWidth(),
     enabled: Boolean = true,
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    isError: Boolean = false
 ) {
     Button(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         shape = RoundedCornerShape(13.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = White,
-            containerColor = PrimaryColor
+            containerColor =
+                if (isError) Color.Red
+                else PrimaryColor
         ),
         onClick = onClick,
         enabled = enabled
