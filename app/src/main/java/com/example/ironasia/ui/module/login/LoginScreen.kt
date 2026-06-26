@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ironasia.R
 import com.example.ironasia.ui.components.CustomButton
+import com.example.ironasia.ui.components.CustomDialog
 import com.example.ironasia.ui.components.CustomTextField
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.Gray
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.PrimaryColor
@@ -32,9 +33,12 @@ import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.paragraph1
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.paragraph2
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navigateHome: () -> Unit
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -90,10 +94,16 @@ fun LoginScreen() {
             CustomButton(
                 text = "Login",
                 enabled = !(email.isEmpty() || password.isEmpty()),
-                onClick = {}
+                onClick = {
+                    if (email != "admin@gmail.com" && password != "admin123") {
+                        showDialog = true
+                    } else {
+                        navigateHome()
+                    }
+                }
             )
             Spacer(modifier = Modifier.size(25.dp))
-            Row() {
+            Row {
                 Text(
                     text = "Don't have an account?",
                     style = paragraph1
@@ -106,11 +116,19 @@ fun LoginScreen() {
                 )
             }
         }
+
+        if (showDialog) {
+            CustomDialog(
+                title = "Login",
+                message = "Email atau password tidak sesuai",
+                confirm = { showDialog = false }
+            )
+        }
     }
 }
 
 @Preview
 @Composable
 private fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen({})
 }

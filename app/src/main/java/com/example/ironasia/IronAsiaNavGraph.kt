@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.ironasia.ui.module.home.HomeScreen
 import com.example.ironasia.ui.module.login.LoginScreen
 
 @Composable
@@ -22,8 +23,14 @@ fun IronAsiaNavGraph(
         modifier = modifier,
         startDestination = startDestination
     ) {
+        val navigateHome = { navActions.navigateTo(IronAsiaRoutes.Home.route) }
+
         composable(route = IronAsiaRoutes.Login.route) {
-            LoginScreen()
+            LoginScreen(navigateHome = navigateHome)
+        }
+
+        composable(route = IronAsiaRoutes.Home.route) {
+            HomeScreen()
         }
     }
 }
