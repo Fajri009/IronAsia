@@ -11,9 +11,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.ironasia.ui.module.contact.detail.DetailContactScreen
+import com.example.ironasia.ui.module.contact.edit.EditContactScreen
 import com.example.ironasia.ui.module.form.FormScreen
 import com.example.ironasia.ui.module.home.HomeScreen
 import com.example.ironasia.ui.module.login.LoginScreen
+import com.example.ironasia.viewmodel.contact.Edit.EditContactViewModel
 import com.example.ironasia.viewmodel.contact.detail.DetailContactViewModel
 import com.example.ironasia.viewmodel.form.FormViewModel
 import com.example.ironasia.viewmodel.home.HomeViewModel
@@ -35,6 +37,9 @@ fun IronAsiaNavGraph(
         val navigateForm = { navActions.navigateTo(IronAsiaRoutes.Form.route) }
         val navigateDetail = { id: String ->
             navActions.navigateTo(IronAsiaRoutes.Detail.createRoute(id))
+        }
+        val navigateEdit = { id: String ->
+            navActions.navigateTo(IronAsiaRoutes.Edit.createRoute(id))
         }
 
         composable(route = IronAsiaRoutes.Login.route) {
@@ -72,6 +77,25 @@ fun IronAsiaNavGraph(
             val viewModel = hiltViewModel<DetailContactViewModel>()
 
             DetailContactScreen(
+                viewModel = viewModel,
+                userId = userId ?: "",
+                navigateBack = navigateHome,
+                navigateEdit = navigateEdit
+            )
+        }
+
+        composable(
+            route = IronAsiaRoutes.Edit.route,
+            arguments =
+                listOf(
+                    navArgument("userId") { type = NavType.StringType },
+                )
+        ) { navBackStackEntry ->
+            val userId = navBackStackEntry.arguments?.getString("userId")
+
+            val viewModel = hiltViewModel<EditContactViewModel>()
+
+            EditContactScreen(
                 viewModel = viewModel,
                 userId = userId ?: "",
                 navigateBack = navigateHome

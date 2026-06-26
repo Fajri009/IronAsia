@@ -1,4 +1,4 @@
-package com.example.ironasia.ui.module.contact.detail
+package com.example.ironasia.ui.module.contact.edit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -17,6 +19,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,31 +32,41 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.ironasia.R
 import com.example.ironasia.data.repository.model.userResponse.UserItem
 import com.example.ironasia.ui.components.CustomButton
+import com.example.ironasia.ui.components.CustomTextField
 import com.example.ironasia.ui.module.home.toInitial
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.LightPrimaryColor
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.PrimaryColor
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.White
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.heading2
-import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.heading4SemiBold
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.heading5SemiBold
-import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.paragraph1
-import com.example.ironasia.viewmodel.contact.detail.DetailContactViewModelType
+import com.example.ironasia.viewmodel.contact.Edit.EditContactViewModelType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun DetailContactScreen(
-    viewModel: DetailContactViewModelType,
+fun EditContactScreen(
+    viewModel: EditContactViewModelType,
     userId: String,
-    navigateBack: () -> Unit,
-    navigateEdit: (String) -> Unit
+    navigateBack: () -> Unit
 ) {
     val userData by viewModel.userData.collectAsStateWithLifecycle()
 
-    val name = userData?.name ?: ""
+    var name by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
+    var phoneNumber by rememberSaveable { mutableStateOf("") }
+    var address by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(userId) {
         viewModel.getUserById(userId)
+    }
+
+    LaunchedEffect(userData) {
+        userData?.let {
+            name = it.name
+            email = it.email
+            phoneNumber = it.phoneNumber
+            address = it.address
+        }
     }
 
     Scaffold(containerColor = White) { paddingValues ->
@@ -60,6 +75,7 @@ fun DetailContactScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(horizontal = 20.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             Spacer(modifier = Modifier.size(20.dp))
             Row {
@@ -97,85 +113,53 @@ fun DetailContactScreen(
                         color = PrimaryColor
                     )
                 }
-                Spacer(modifier = Modifier.size(20.dp))
-                Text(
-                    text = name,
-                    style = heading4SemiBold
-                )
             }
             Spacer(modifier = Modifier.size(30.dp))
-            UserInfo(
-                icon = R.drawable.ic_location_pin,
-                data = "${userData?.address}, ${userData?.city}"
+            CustomTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = "Full Name"
             )
-            Spacer(modifier = Modifier.size(15.dp))
-            UserInfo(
-                icon = R.drawable.ic_email,
-                data = userData?.email ?: ""
+            Spacer(modifier = Modifier.size(20.dp))
+            CustomTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = "Email"
             )
-            Spacer(modifier = Modifier.size(15.dp))
-            UserInfo(
-                icon = R.drawable.ic_phone,
-                data = userData?.phoneNumber ?: ""
+            Spacer(modifier = Modifier.size(20.dp))
+            CustomTextField(
+                value = phoneNumber,
+                onValueChange = { phoneNumber = it },
+                label = "Phone Number"
+            )
+            Spacer(modifier = Modifier.size(20.dp))
+            CustomTextField(
+                value = address,
+                onValueChange = { address = it },
+                label = "Address"
             )
             Spacer(modifier = Modifier.size(30.dp))
-            Row {
-                CustomButton(
-                    modifier = Modifier.weight(1f),
-                    text = "Edit",
-                    onClick = {
-                        navigateEdit(userId)
-                    }
-                )
-                Spacer(modifier = Modifier.size(10.dp))
-                CustomButton(
-                    modifier = Modifier.weight(1f),
-                    text = "Delete",
-                    isError = true,
-                    onClick = {
-                        viewModel.deleteUser(userId)
-                        navigateBack()
-                    }
-                )
-            }
+            CustomButton(
+                text = "Save",
+                enabled = !(name.isEmpty() || email.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()),
+                onClick = navigateBack
+            )
         }
-    }
-}
-
-@Composable
-fun UserInfo(
-    icon: Int,
-    data: String
-) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(
-            modifier = Modifier.size(28.dp),
-            painter = painterResource(id = icon),
-            contentDescription = "Icon User Data"
-        )
-        Spacer(modifier = Modifier.size(10.dp))
-        Text(
-            text = data,
-            style = paragraph1
-        )
     }
 }
 
 @Preview
 @Composable
-private fun DetailContactScreenPreview() {
-    val viewModel = object : DetailContactViewModelType {
+private fun EditContactScreenPreview() {
+    val viewModel = object : EditContactViewModelType {
         override val userData: StateFlow<UserItem?> = MutableStateFlow(null)
 
         override fun getUserById(id: String) { }
-        override fun deleteUser(id: String) { }
-
     }
 
-    DetailContactScreen(
+    EditContactScreen(
         viewModel = viewModel,
         userId = "0",
-        navigateBack = {},
-        navigateEdit = {}
+        navigateBack = {}
     )
 }

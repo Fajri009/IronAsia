@@ -37,7 +37,6 @@ import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.heading5Sem
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.heading6SemiBold
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.paragraph1
 import com.example.ironasia.viewmodel.form.FormViewModelType
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun FormScreen(
@@ -187,7 +186,6 @@ fun FormScreen(
 @Composable
 fun FormScreenPreview() {
     val viewModel = object : FormViewModelType {
-        override val userState = MutableStateFlow(null)
         override fun addUserData(userData: UserItem) { }
     }
 

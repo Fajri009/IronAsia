@@ -12,6 +12,10 @@ sealed class IronAsiaRoutes(val route: String) {
     object Detail : IronAsiaRoutes("detail/{userId}") {
         fun createRoute(userId: String) = "detail/$userId"
     }
+
+    object Edit : IronAsiaRoutes("edit/{userId}") {
+        fun createRoute(userId: String) = "edit/$userId"
+    }
 }
 
 class IronAsiaNavigationActions(private val navController: NavHostController) {
