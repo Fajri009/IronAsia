@@ -78,7 +78,17 @@ class RepositoryDb @Inject constructor(
     }
 
     override suspend fun updateUser(user: UserItem) {
-        TODO("Not yet implemented")
+        userDao.updateUser(
+            UserEntity(
+                id = user.id,
+                name = user.name,
+                address = user.address,
+                email = user.email,
+                phoneNumber = user.phoneNumber,
+                city = user.city,
+                gender = user.gender
+            )
+        )
     }
 
     override suspend fun deleteUser(id: String) {

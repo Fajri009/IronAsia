@@ -14,6 +14,8 @@ interface EditContactViewModelType {
     val userData: StateFlow<UserItem?>
 
     fun getUserById(id: String)
+
+    fun updateUser(user: UserItem)
 }
 
 @HiltViewModel
@@ -30,6 +32,12 @@ constructor(
             dbRepository.getUserById(id).collect {
                 _userData.value = it
             }
+        }
+    }
+
+    override fun updateUser(user: UserItem) {
+        viewModelScope.launch {
+            dbRepository.updateUser(user)
         }
     }
 }

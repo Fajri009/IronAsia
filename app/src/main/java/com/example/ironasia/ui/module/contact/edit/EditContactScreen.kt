@@ -142,7 +142,20 @@ fun EditContactScreen(
             CustomButton(
                 text = "Save",
                 enabled = !(name.isEmpty() || email.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()),
-                onClick = navigateBack
+                onClick = {
+                    userData?.let {
+                        viewModel.updateUser(
+                            it.copy(
+                                name = name,
+                                email = email,
+                                phoneNumber = phoneNumber,
+                                address = address
+                            )
+                        )
+
+                        navigateBack()
+                    }
+                }
             )
         }
     }
@@ -155,6 +168,7 @@ private fun EditContactScreenPreview() {
         override val userData: StateFlow<UserItem?> = MutableStateFlow(null)
 
         override fun getUserById(id: String) { }
+        override fun updateUser(user: UserItem) { }
     }
 
     EditContactScreen(
