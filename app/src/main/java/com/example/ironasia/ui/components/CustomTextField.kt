@@ -86,10 +86,11 @@ fun CustomTextField(
                         isPassword -> KeyboardType.Password
                         else -> KeyboardType.Text
                     },
-                capitalization =
-                    if (!isEmail) KeyboardCapitalization.Words
-                    else KeyboardCapitalization.None,
-                autoCorrectEnabled = true
+                capitalization = when {
+                    isEmail || isPassword -> KeyboardCapitalization.None
+                    else -> KeyboardCapitalization.Words
+                },
+                autoCorrectEnabled = !isPassword
             ),
             visualTransformation =
                 if (isPassword && !passwordVisible) PasswordVisualTransformation()
