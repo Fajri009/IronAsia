@@ -1,0 +1,19 @@
+package com.example.ironasia
+
+import androidx.navigation.NavHostController
+
+sealed class IronAsiaRoutes(val route: String) {
+    object Login : IronAsiaRoutes("login")
+}
+
+class IronAsiaNavigationActions(private val navController: NavHostController) {
+    fun navigateTo(routes: String) {
+        navController.navigate(routes) {
+            if (routes == IronAsiaRoutes.Login.route) {
+                popUpTo(navController.graph.id) { inclusive = true }
+                launchSingleTop = true
+                restoreState = false
+            }
+        }
+    }
+}
