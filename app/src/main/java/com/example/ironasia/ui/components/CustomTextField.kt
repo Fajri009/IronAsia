@@ -18,7 +18,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -29,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.example.ironasia.R
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.PrimaryColor
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.LightPrimaryColor
+import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.White
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.paragraph1
 
 @Composable
@@ -72,8 +72,8 @@ fun CustomTextField(
                 }
             } else null,
             colors = colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
+                focusedContainerColor = White,
+                unfocusedContainerColor = White,
 
                 // Border (Outline)
                 focusedIndicatorColor = PrimaryColor,
@@ -122,7 +122,7 @@ fun CustomTextField(
 @Preview
 @Composable
 fun CustomTextFieldPreview() {
-    Surface(color = Color.White) {
+    Surface(color = White) {
         CustomTextField(
             value = "",
             onValueChange = {},

@@ -8,7 +8,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.graphics.toArgb
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.PrimaryColor
 import com.example.ironasia.ui.theme.IronAsiaTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

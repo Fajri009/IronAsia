@@ -3,12 +3,14 @@ package com.example.ironasia
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ironasia.ui.module.home.HomeScreen
 import com.example.ironasia.ui.module.login.LoginScreen
+import com.example.ironasia.viewmodel.home.HomeViewModel
 
 @Composable
 fun IronAsiaNavGraph(
@@ -30,7 +32,9 @@ fun IronAsiaNavGraph(
         }
 
         composable(route = IronAsiaRoutes.Home.route) {
-            HomeScreen()
+            val viewModel = hiltViewModel<HomeViewModel>()
+
+            HomeScreen(viewModel = viewModel)
         }
     }
 }
