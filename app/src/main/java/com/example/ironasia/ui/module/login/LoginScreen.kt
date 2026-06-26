@@ -100,11 +100,11 @@ fun LoginScreen(
                 text = "Login",
                 enabled = !(email.isEmpty() || password.isEmpty()),
                 onClick = {
-                    if (email != "admin@gmail.com" && password != "admin123") {
-                        showDialog = true
-                    } else {
+                    if (email == "admin@gmail.com" && password == "admin123") {
                         viewModel.loginSuccess()
                         navigateHome()
+                    } else {
+                        showDialog = true
                     }
                 }
             )
