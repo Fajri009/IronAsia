@@ -33,9 +33,11 @@ import com.example.ironasia.ui.theme.IronAsiaAppTheme.Color.Companion.White
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.heading5SemiBold
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.paragraph1
 import com.example.ironasia.ui.theme.IronAsiaAppTheme.Text.Companion.paragraph2
+import com.example.ironasia.viewmodel.login.LoginViewModelType
 
 @Composable
 fun LoginScreen(
+    viewModel: LoginViewModelType,
     navigateHome: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
@@ -101,6 +103,7 @@ fun LoginScreen(
                     if (email != "admin@gmail.com" && password != "admin123") {
                         showDialog = true
                     } else {
+                        viewModel.loginSuccess()
                         navigateHome()
                     }
                 }
@@ -133,5 +136,12 @@ fun LoginScreen(
 @Preview
 @Composable
 private fun LoginScreenPreview() {
-    LoginScreen({})
+    val viewModel = object : LoginViewModelType {
+        override fun loginSuccess() { }
+    }
+
+    LoginScreen(
+        viewModel = viewModel,
+        navigateHome = {}
+    )
 }

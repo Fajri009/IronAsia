@@ -19,12 +19,13 @@ import com.example.ironasia.viewmodel.contact.Edit.EditContactViewModel
 import com.example.ironasia.viewmodel.contact.detail.DetailContactViewModel
 import com.example.ironasia.viewmodel.form.FormViewModel
 import com.example.ironasia.viewmodel.home.HomeViewModel
+import com.example.ironasia.viewmodel.login.LoginViewModel
 
 @Composable
 fun IronAsiaNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = IronAsiaRoutes.Login.route,
+    startDestination: String,
     navActions: IronAsiaNavigationActions =
         remember(navController) { IronAsiaNavigationActions(navController) }
 ) {
@@ -43,7 +44,12 @@ fun IronAsiaNavGraph(
         }
 
         composable(route = IronAsiaRoutes.Login.route) {
-            LoginScreen(navigateHome = navigateHome)
+            val viewModel = hiltViewModel<LoginViewModel>()
+
+            LoginScreen(
+                viewModel = viewModel,
+                navigateHome = navigateHome
+            )
         }
 
         composable(route = IronAsiaRoutes.Home.route) {
